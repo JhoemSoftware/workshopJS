@@ -1,43 +1,65 @@
-// Ahora que tenemos nuestro HTML y CSS, es hora de darle vida con JavaScript <3
+const   imgPokemonUno = document.querySelector(".pokemon-1__img"),
+        hpPokemonUno = document.querySelector(".pokemon-1__hp"),
+        namePokemonUno = document.querySelector(".pokemon-1__name"),
+        attackPokemonUno = document.querySelector(".pokemon-1__attack"),
+        defensePokemonUno = document.querySelector(".pokemon-1__defense"),
+        typePokemonUno = document.querySelector(".pokemon-1__type"),
+        imgPokemonDos = document.querySelector(".pokemon-2__img"),
+        hpPokemonDos = document.querySelector(".pokemon-2__hp"),
+        namePokemonDos = document.querySelector(".pokemon-2__name"),
+        attackPokemonDos = document.querySelector(".pokemon-2__attack"),
+        defensePokemonDos = document.querySelector(".pokemon-2__defense"),
+        typePokemonDos = document.querySelector(".pokemon-2__type"),
+        botones = document.querySelectorAll(".button");
 
-// 1️⃣. Seleccionar los elementos HTML que vamos a utilizar:
-// - Imagen de los pokemon
-// - Stats de cada uno
-// 🤓 Pista: revisa el método document.querySelector()
+let pokemonUnoID = 0,
+    pokemonDosID = 0;
 
-// Selectores para el Pokemon 1
-
-
-// Selectores para el Pokemon 2
-
-
-// 2️⃣. Miremos ahora la API de Pokemon :)
-// - Haz un llamado a la URL https://pokeapi.co/api/v2/pokemon/ y analiza cómo devuelve su respuesta
-// La API retorna un pokemon https://pokeapi.co/api/v2/pokemon/{ID} si se provee un ID al final.
-// 🤓 Pista: Para enfrentar 2 pokemones aleatores, necesitamos hacer 2 llamados a la API con 2 n´¨úmeros aleatorios entre el 1 y el 900
-
-
-// 3️⃣ - Crear una función que genere un número random entre 1 y 900.
-// Puedes usar esta: 👩🏻‍💻
-/* const getRandomNumber = (numMin, numMax) => {
+const getRandomNumber = (numMin, numMax) => {
   return Math.floor(Math.random() * (numMax - numMin + 1) + numMin);
-}; */
+};
 
-// 4️⃣ - Asignar un número random al ID de los que serán nuestros pokemons
-// Declara 2 variables para cada pokemon y guarda los números que retorna la funci´øn en ellos
+pokemonUnoID = getRandomNumber(1,150);
+pokemonDosID = getRandomNumber(1,150);
 
-// 🤓 Pista: algo como ... const poke1ID = getRandomNumber(1, 900);
+do {
+    pokemonDosID = getRandomNumber(1,150);
+} while(pokemonUnoID === pokemonDosID)
 
-// 5️⃣ - Crear una función para traer (fetch) data de la API
-// Dale una mirada a la función fetch -> https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
-// Recuerda la URL de la API https://pokeapi.co/api/v2/pokemon/${pokeID}
-
-//Puedes usar esta: 👩🏻‍💻
-/* const getPokemon = async (pokeID) => {
-  const response = await fetch(` https://pokeapi.co/api/v2/pokemon/${pokeID}`);
+const getPokemon = async (pokeID) => {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeID}`);
   const data = await response.json();
   return data;
-}; */
+}
+
+const createPokemons = (id1, id2) => {
+    getPokemon(id1)
+        .then((data)=>{
+            console.log(data)
+            namePokemonUno.innerText = data.name
+            imgPokemonUno.src = data.sprites.other.home['front_default']
+            hpPokemonUno.innerText = data.stats[0].base_stat
+            attackPokemonUno.innerText = data.stats[1].base_stat
+            defensePokemonUno.innerText = data.stats[2].base_stat
+            typePokemonUno.innerText = data.types.map((objet) => objet.type.name)
+        })
+        .catch(console.log("El pokemon no existe"));
+    
+    getPokemon(id2)
+        .then((data)=>{
+            console.log(data)
+            namePokemonDos.innerText = data.name
+            imgPokemonDos.src = data.sprites.other.home['front_default']
+            hpPokemonDos.innerText = data.stats[0].base_stat
+            attackPokemonDos.innerText = data.stats[1].base_stat
+            defensePokemonDos.innerText = data.stats[2].base_stat
+            typePokemonDos.innerText = data.types.map((objet) => objet.type.name)
+        })
+        .catch(console.log("El pokemon no existe"));
+} 
+
+createPokemons(pokemonUnoID,pokemonDosID)
+
 
 // 6️⃣ - Vamos a crear los pokemons en la función createPokemons.
 // Primero Haz varias pruebas a las API para examinar bien qué devuelve, esa data
