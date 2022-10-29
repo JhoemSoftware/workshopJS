@@ -10,7 +10,7 @@
 	<div align="center">
         <h3>GDG Medellín</h3>
         <p>
-            
+            Workshop en donde se desarrolló un juego de Pokemón
         </p>
 	</div>
 </body>
